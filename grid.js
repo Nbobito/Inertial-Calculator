@@ -46,6 +46,48 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function colorTableCells() {
+        const table = document.getElementById('resultsTable');
+        const rows = table.getElementsByTagName('tr');
+        const columnCount = rows[0].cells.length; // Assuming all rows have the same number of cells
+    
+        for (let colIndex of [2,3,5,6]) {
+            let columnValues = Array.from(rows).slice(1) // Exclude header row
+                                    .map(row => parseFloat(row.cells[colIndex].textContent) || 0);
+            
+            let maxVal = Math.max(...columnValues);
+            let minVal = Math.min(...columnValues);
+    
+            // Apply colors based on values
+            columnValues.forEach((val, rowIndex) => {
+                let cell = rows[rowIndex + 1].cells[colIndex]; // +1 to skip header row
+                cell.style.backgroundColor = getColorForValue(val, minVal, maxVal);
+            });
+        }
+    }
+    
+    function getColorForValue(value, min, max) {
+        const percent = (value - min) / (max - min); // Normalize value to [0, 1]
+        const intensityReductionFactor = 0.5; // Adjust this value to control darkness (lower = darker)
+        
+        // Calculate red and green values with reduced intensity for darker colors
+        const red = Math.round((1 - percent) * 255 * intensityReductionFactor);
+        const green = Math.round(percent * 255 * intensityReductionFactor);
+        
+        // Optionally, add a small blue component or reduce it further for different shades
+        const blue = 0; // Adjust if a different shade is desired
+    
+        return `rgb(${red},${green},${blue})`; // Construct darker RGB color string
+    } 
+    
+    function scaleAndRoundValue(value) {
+        // Scale by 10^3
+        let scaledValue = value * 1000;
+        // Round to the nearest thousandth
+        let roundedValue = Math.round(scaledValue * 100000) / 100000;
+        return roundedValue;
+    }
+
     let isDrawing = false;
     let drawState = false;
     document.addEventListener('mouseup', function() {
@@ -93,6 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const calculateButton = document.getElementById('calculateButton');
     const resultsTableBody = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
 
+    let idCounter = 1;
+
     calculateButton.addEventListener('click', function() {
         // Assuming performCalculation is your function that returns the calculation result and shape representation
         const calculationResult = performCalculation(); // Implement this function based on your specific calculation
@@ -112,6 +156,14 @@ document.addEventListener('DOMContentLoaded', function () {
         newRow.addEventListener('click', function() {
             const state = JSON.parse(this.dataset.state);
             restoreGridState(state);
+        });
+        
+        // Delete cell when right clicked
+        newRow.addEventListener('contextmenu', function(event) {
+            event.preventDefault(); // Prevent the default context menu from showing
+            this.remove(); // Remove the clicked table row
+            colorTableCells();
+            return false; // To prevent any further context menu default actions
         });
 
         function restoreGridState(state) {
@@ -151,7 +203,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         
-        idCell.textContent = resultsTableBody.children.length
+        idCell.textContent = idCounter;
+        idCounter += 1;
         // Assuming the shape is represented as a small image or canvas drawing
         const shapeImage = document.createElement('img');
         shapeImage.src = calculationResult.shapeImage; // Your method to get the shape image
@@ -163,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
         stripCountCell.textContent = calculationResult.stripCount;
         ratioXCell.textContent = calculationResult.stripInertiaX;
         ratioYCell.textContent = calculationResult.stripInertiaY;
+        colorTableCells();
     });
     
     function captureGridState() {
@@ -235,11 +289,11 @@ document.addEventListener('DOMContentLoaded', function () {
     
         return {
             shapeImage: shapeImage,
-            inertiaX: inertiaX,
-            inertiaY: inertiaY,
+            inertiaX: scaleAndRoundValue(inertiaX),
+            inertiaY: scaleAndRoundValue(inertiaY),
             stripCount: stripCount,
-            stripInertiaX: stripInertiaX,
-            stripInertiaY: stripInertiaY,
+            stripInertiaX: scaleAndRoundValue(stripInertiaX),
+            stripInertiaY: scaleAndRoundValue(stripInertiaY),
             gridState: gridState
         };
     }

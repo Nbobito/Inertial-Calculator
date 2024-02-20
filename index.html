@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dynamic Toggle Grid with Dark Mode and Fixed Controls</title>
+    <title>Inertial Calculator</title>
     <link rel="stylesheet" href="style.css"> <!-- Assuming the CSS is in style.css -->
 </head>
 <body>
@@ -23,11 +23,11 @@
                 <tr>
                     <th>#</th>
                     <th>Shape</th>
-                    <th>I<sub>x</sub> (in<sup>4</sup>)<br> Inertia when load pushes on the top</th>
-                    <th>I<sub>y</sub>  (in<sup>4</sup>)<br> Inertia when load pushes on the side</th>
+                    <th>I<sub>x</sub>*10<sup>3</sup> (in<sup>4</sup>)<br> Inertia when load pushes on the top</th>
+                    <th>I<sub>y</sub>*10<sup>3</sup>  (in<sup>4</sup>)<br> Inertia when load pushes on the side</th>
                     <th>Balsa strip count (n)</th>
-                    <th>I<sub>x</sub> to strip ratio (I<sub>x</sub>/n<sup>2</sup>)</th>
-                    <th>I<sub>y</sub> to strip ratio (I<sub>y</sub>/n<sup>2</sup>)</th>
+                    <th>I<sub>x</sub> to strip ratio (I<sub>x</sub>/n<sup>2</sup>)*10<sup>3</sup></th>
+                    <th>I<sub>y</sub> to strip ratio (I<sub>y</sub>/n<sup>2</sup>)*10<sup>3</sup></th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +35,29 @@
             </tbody>
         </table>
     </div>
+    <div class="controls lower-controls instructions">
+        <p>
+            To use this calculator, simply draw your cross-section in the 
+            grid above. Each pixel represents one balsa wood strip, measuring
+            3/32 of an inch. <br><br>
+            This calculator assumes that the bending
+            axis occurs in the center of the cross-section, meaning
+            that you'll need to adjust your rows and columns in order
+            to make your shape fill to the edges of the grid. The results
+            have been scaled by 1000 to help with readability, 
+            so be sure to divide by 1000 before using these in equations. Results are
+            also colored by column, so just because one cell is greener
+            doesn't mean it has the highest value; it just means it has
+            the highest value for that column. <br><br>
+            Left-click
+            on a calculated table entry to put it back on the grid,
+            and right-click to remove it. <br><br>
+            That's just about it.
+            Try drawing some shapes like rectangles or I-beams and see how
+            their different inertias and ratios compare.
+        </p>
+    </div>
+    <footer class="footer">Created by someone somewhere in some physics class in 2024</footer>
     <script src="grid.js"></script>
 </body>
 </html>
