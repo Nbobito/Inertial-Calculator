@@ -12,8 +12,6 @@ body {
 }
 
 .controls {
-    position: fixed; /* Make controls fixed at the top */
-    top: 20px; /* Distance from the top of the viewport */
     display: flex;
     gap: 20px; /* Space between controls */
     background-color: #121212; /* Match the body's background color */
@@ -21,6 +19,17 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Optional: Adds a subtle shadow for better separation */
     z-index: 100; /* Ensures controls stay above other content */
+}
+
+.upper-controls {
+    position: fixed; /* Make controls fixed at the top */
+    top: 20px; /* Distance from the top of the viewport */
+}
+
+.lower-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Adjust spacing between calculate button and results table */
 }
 
 .grid-container {
@@ -50,4 +59,39 @@ button {
 
 input[type=range] {
     cursor: pointer;
+}
+
+#calculateButton {
+    margin-top: 20px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#resultsTable {
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+#resultsTable th, #resultsTable td {
+    border: 1px solid #888;
+    padding: 8px;
+    text-align: left;
+    color: #e0e0e0;
+}
+
+#resultsTable th {
+    background-color: #333;
+    text-align: center;
+}
+
+#resultsTable td {
+    background-color: #222;
+}
+
+#resultsTable tbody tr:hover {
+    background-color: #444; /* Slightly lighter or darker to indicate hover */
+    cursor: pointer; /* Change cursor to indicate clickable */
 }
