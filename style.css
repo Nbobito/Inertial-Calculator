@@ -1,0 +1,53 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start; /* Adjusted to 'start' to align items from the top */
+    height: 100vh;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    padding-top: 20px; /* Increase padding to space out from the top */
+}
+
+.controls {
+    position: fixed; /* Make controls fixed at the top */
+    top: 20px; /* Distance from the top of the viewport */
+    display: flex;
+    gap: 20px; /* Space between controls */
+    background-color: #121212; /* Match the body's background color */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Optional: Adds a subtle shadow for better separation */
+    z-index: 100; /* Ensures controls stay above other content */
+}
+
+.grid-container {
+    display: grid;
+    border: 2px solid #444;
+    margin-top: 100px; /* Space below the fixed controls */
+}
+
+.grid-item {
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    border: 1px solid #444;
+}
+
+.toggled {
+    background-color: #0077cc;
+}
+
+button {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+input[type=range] {
+    cursor: pointer;
+}
